@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<beans xsi:schemaLocation=" http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" 
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns="http://www.springframework.org/schema/beans">
+
+	<context:annotation-config/>																<!--Автоматическое связывание посредством аннотаций-->
+	
+	<bean class="di_continuation.Juggler" id="duke">
+		<constructor-arg value="7"/>                                                            <!--Внедрение значения через конструктор-->
+	</bean>
+	<bean class="di_continuation.Stage" id="stage" factory-method="getInstance"/>         		<!--Создание компонента с помощью фабричного метода-->
+	
+	<bean class="di_continuation.Saxophone" id="saxophone"/>
+	<bean class="di_continuation.Piano" id="piano"/>
+	<bean class="di_continuation.Guitar" id="instrument"/>
+	
+	<bean class="di_continuation.Instrumentalist" id="kenny">									<!--Автоматическое связывание по имени - добавление атрибута со значением autowire="byName"-->
+		<property name ="song" value="Jingle Bells"/>
+		<!--<property name = "saxophone" ref="instrument"/> явное связывание-->
+	</bean>
+	
+	<bean class="di_continuation.OneManBand" id="hank">
+		<property name ="instruments">
+			<set>                                                                               <!--Внедрение коллекции-->
+				<ref bean="instrument"/>
+				<ref bean="saxophone"/>
+				<ref bean="piano"/>
+				<ref bean="piano"/>															<!--не будет введено в коллекцию, т.к. элемент <set> не допускает повторяющихся компонентов в коллекции-->
+			</set>
+		</property>
+	</bean>
+</beans>
